@@ -15,10 +15,10 @@ int dequeue(Queue *q);
 
 int empty(Queue *q);
 
-void create_CSR(int *m, int v, int *C, int *R);
+void create_CSR(int **m, int v, int *C, int *R);
 
-int count_edges(int *m, int v);
+int count_edges(int **m, int v);
 
-int* sequential_BFS(int *m, int v, int src);
+int* sequential_BFS(int *C, int *R, int v, int src);
 
 void print_array(int *arr, int size);

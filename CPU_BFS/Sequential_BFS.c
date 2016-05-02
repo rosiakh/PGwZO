@@ -51,7 +51,7 @@ int empty(Queue *q)
 	return q->size == 0;
 }
 
-void create_CSR(int *m, int v, int *C, int *R)
+void create_CSR(int **m, int v, int *C, int *R)
 {
 	int edges = 0;
 
@@ -60,7 +60,7 @@ void create_CSR(int *m, int v, int *C, int *R)
 		R[i] = edges;
 		for (int j = 0; j < v; ++j)
 		{
-			if (m[i*v + j])
+			if (m[i][j])
 			{
 				C[edges++] = j;
 			}
@@ -68,30 +68,22 @@ void create_CSR(int *m, int v, int *C, int *R)
 	}
 }
 
-int count_edges(int *m, int v)
+int count_edges(int **m, int v)
 {
 	int edges = 0;
 	for (int i = 0; i < v; ++i)
 	{
 		for (int j = 0; j < v; ++j)
 		{
-			edges += m[i*v + j];
+			edges += m[i][j];
 		}
 	}
 
 	return edges;
 }
 
-int* sequential_BFS(int *m, int v, int src)
+int* sequential_BFS(int *C, int *R, int v, int src)
 {
-	int *C, *R;
-	int edges = count_edges(m, v);
-
-	R = (int*)malloc(sizeof(int) * v);
-	C = (int*)malloc(sizeof(int) * edges);
-
-	create_CSR(m, v, C, R);
-
 	Queue *q = create_queue(v);
 	int *dist = (int*)malloc(sizeof(int)*v);
 
