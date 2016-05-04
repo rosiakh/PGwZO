@@ -82,6 +82,7 @@ int count_edges(int **m, int v)
 	return edges;
 }
 
+/// returns array of distances from source
 int* sequential_BFS(int *C, int *R, int v, int src)
 {
 	Queue *q = create_queue(v);
@@ -126,13 +127,13 @@ void print_array(int *arr, int size, char *str)
 
 // gr file
 
-/// Returns number of vertices and directed edges in graph stored in .gr file
+/// returns number of vertices and directed edges in graph stored in .gr file
 void count_edges_and_vertices_in_gr_file(char* filename, int *edges, int *vertcies)
 {
 	FILE *fp;
 	fopen_s(&fp, filename, "r");
 
-	int e = 0, v = 0, err;
+	int e = 0, v = 0;
 	char c, buf[512];
 
 	while (!feof(fp))
@@ -162,6 +163,7 @@ void count_edges_and_vertices_in_gr_file(char* filename, int *edges, int *vertci
 	*vertcies = v;
 }
 
+/// fills previously allocated arrays C and R based on .gr file
 void create_CSR_from_gr_file(char* filename, int *C, int *R)
 {
 	int edges, vertices;
