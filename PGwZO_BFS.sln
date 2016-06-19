@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPU_BFS", "PGwZO_BFS\PGwZO_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPU_BFS", "CPU_BFS\CPU_BFS.vcxproj", "{7BE89EB5-9DDB-4BCF-9B33-88A7400AD36D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPU_BFS_2", "GPU_BFS_2\GPU_BFS_2.vcxproj", "{9983B21F-3AB7-4505-BCC8-72F454EA3D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -29,6 +31,14 @@ Global
 		{7BE89EB5-9DDB-4BCF-9B33-88A7400AD36D}.Release|Win32.ActiveCfg = Release|Win32
 		{7BE89EB5-9DDB-4BCF-9B33-88A7400AD36D}.Release|Win32.Build.0 = Release|Win32
 		{7BE89EB5-9DDB-4BCF-9B33-88A7400AD36D}.Release|x64.ActiveCfg = Release|Win32
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Debug|Win32.Build.0 = Debug|Win32
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Debug|x64.ActiveCfg = Debug|x64
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Debug|x64.Build.0 = Debug|x64
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Release|Win32.ActiveCfg = Release|Win32
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Release|Win32.Build.0 = Release|Win32
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Release|x64.ActiveCfg = Release|x64
+		{9983B21F-3AB7-4505-BCC8-72F454EA3D58}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

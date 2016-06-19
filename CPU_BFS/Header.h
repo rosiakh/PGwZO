@@ -7,13 +7,13 @@ typedef struct Queue
 	int *elements;
 } Queue;
 
-Queue *create_queue(int capacity);
+Queue *cpu_create_queue(int capacity);
 
-void enqueue(Queue *q, int x);
+void cpu_enqueue(Queue *q, int x);
 
-int dequeue(Queue *q);
+int cpu_dequeue(Queue *q);
 
-int empty(Queue *q);
+int cpu_queue_empty(Queue *q);
 
 void create_CSR(int **m, int v, int *C, int *R);
 

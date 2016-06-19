@@ -1,55 +1,12 @@
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
+#include "Header.cuh"
+
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "Header.h"
-
-Queue *cpu_create_queue(int capacity)
-{
-	Queue *q = (Queue*)malloc(sizeof(Queue));
-	q->capacity = capacity;
-	q->size = 0;
-	q->front = 0;
-	q->rear = -1;
-	q->elements = (int*)malloc(sizeof(int)*capacity);
-
-	return q;
-}
-
-void cpu_enqueue(Queue *q, int x)
-{
-	if (q->size == q->capacity)
-	{
-		int* new_elements = (int*)malloc(sizeof(int) * q->capacity * 2);
-		for (int i = 0; i < q->capacity; ++i)
-		{
-			new_elements[i] = q->elements[i];
-		}
-
-		free(q->elements);
-		q->elements = new_elements;
-		q->capacity *= 2;
-	}
-
-	q->rear = (q->rear + 1) % q->capacity;
-	q->elements[q->rear] = x;
-
-	++q->size;
-}
-
-int cpu_dequeue(Queue *q)
-{
-	int x = q->elements[q->front];
-	q->front = (q->front + 1) % q->capacity;
-
-	--q->size;
-
-	return x;
-}
-
-int cpu_queue_empty(Queue *q)
-{
-	return q->size == 0;
-}
+#include <stdlib.h>
+#include <stdio.h>
 
 void create_CSR(int **m, int v, int *C, int *R)
 {
@@ -85,7 +42,7 @@ int count_edges(int **m, int v)
 /// returns array of distances from source
 int* sequential_BFS(int *C, int *R, int v, int src)
 {
-	Queue *q = cpu_create_queue(v);
+	cpu_Queue *q = cpu_create_queue(v);
 	int *dist = (int*)malloc(sizeof(int)*v);
 
 	for (int i = 0; i < v; ++i)
@@ -201,7 +158,7 @@ void create_CSR_from_gr_file(char* filename, int *C, int *R)
 			} while (c != '\n' && c != EOF);
 		}
 	}
-	fclose(fp);	
+	fclose(fp);
 
 	// sort by vertex
 
@@ -222,17 +179,51 @@ void create_CSR_from_gr_file(char* filename, int *C, int *R)
 
 	for (int i = 0; i < edges; ++i)
 	{
-		C[i] = mem[i][1]-1;
+		C[i] = mem[i][1] - 1;
 	}
 
 	R[0] = 0;
 	for (int i = 1; i < vertices; ++i)
 	{
-		R[i] = R[i - 1] + count[i-1];
+		R[i] = R[i - 1] + count[i - 1];
 	}
 }
 
 int compare_edges(const void *e1, const void *e2)
 {
 	return (**((int**)e1) - **((int**)e2));
+}
+
+int main()  // should I enable GPU_BFS to use CPU_BFS functions or should I rewrite them here?
+{
+	int edges, vertices;
+	char *str = "C:\\Users\\hrk\\Documents\\Visual Studio 2013\\Projects\\PGwZO_BFS\\roads.gr";
+
+	count_edges_and_vertices_in_gr_file(str, &edges, &vertices);
+
+	int *C = (int*)malloc(sizeof(int)*edges);
+	int *R = (int*)malloc(sizeof(int)*vertices);
+
+	create_CSR_from_gr_file(str, C, R);
+
+	printf("edges = %d, vertices = %d\n", edges, vertices);
+	printf("starting BFS\n");
+
+	int *dist1 = sequential_BFS(C, R, vertices, 0);
+	printf("Sequential done\n");
+
+	int *dist2 = quadratic_parallel_BFS(C, R, edges, vertices, 0);
+	printf("Quadratic parallelization done\n");
+
+	//int *dist3 = linear_parallel_BFS(C, R, edges, vertices, 0);
+	//printf("Linear parallelization done\n");
+
+	//contract_expand_v(C, R, edges, vertices, 0);
+	
+	//cpu_Queue q, *p;
+	//printf("sizeof(p) = %d, sizeof(q) = %d\n", sizeof(p), sizeof(q));
+
+	print_array(dist1, vertices, "sq");
+	print_array(dist2, vertices, "qd");
+	//print_array(dist3, vertices, "ln");
 }
