@@ -1,9 +1,7 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-#include "Header.cuh"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 __global__ void set_distance(int *dist, int vertices, int src)
 {
