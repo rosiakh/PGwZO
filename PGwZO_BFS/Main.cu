@@ -1,8 +1,10 @@
-#include "cuda_runtime.h"
 #include "Header.cuh"
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
+#include <string>
+#include <windows.h>
 
 void create_CSR(int **m, int v, int *C, int *R)
 {
@@ -81,8 +83,9 @@ void print_array(int *arr, int size, char *str)
 // gr file
 
 /// returns number of vertices and directed edges in graph stored in .gr file
-void count_edges_and_vertices_in_gr_file(char* filename, int *edges, int *vertcies)
+void count_edges_and_vertices_in_gr_file(std::string str, int *edges, int *vertcies)
 {
+	const char* filename = str.c_str();
 	FILE *fp;
 	fopen_s(&fp, filename, "r");
 
@@ -117,11 +120,12 @@ void count_edges_and_vertices_in_gr_file(char* filename, int *edges, int *vertci
 }
 
 /// fills previously allocated arrays C and R based on .gr file
-void create_CSR_from_gr_file(char* filename, int *C, int *R)
+void create_CSR_from_gr_file(std::string str, int *C, int *R)
 {
+	const char* filename = str.c_str();
 	int edges, vertices;
 
-	count_edges_and_vertices_in_gr_file(filename, &edges, &vertices);
+	count_edges_and_vertices_in_gr_file(str, &edges, &vertices);
 
 	int **mem = (int**)malloc(edges*sizeof(int*));
 	for (int i = 0; i < edges; ++i)
@@ -190,10 +194,14 @@ int compare_edges(const void *e1, const void *e2)
 	return (**((int**)e1) - **((int**)e2));
 }
 
-int main()  // should I enable GPU_BFS to use CPU_BFS functions or should I rewrite them here?
+int main()
 {
 	int edges, vertices;
-	char *str = "C:\\Users\\hrk\\Documents\\Visual Studio 2013\\Projects\\PGwZO_BFS\\roads.gr";
+	std::cout << "Podaj nazwe grafu:\n";
+
+	std::string str;
+	getline(std::cin, str);
+	str = "C:\\Users\\hrk\\Desktop\\PGwZO\\repo\\DIMACS\\USA-road-d." + str + ".gr";
 
 	count_edges_and_vertices_in_gr_file(str, &edges, &vertices);
 

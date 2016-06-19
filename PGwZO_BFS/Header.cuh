@@ -1,5 +1,7 @@
 #define BLOCK_SIZE 32
 #define WARP_SIZE 32 // change to warpSize
+#include <string>
+#include <host_defines.h>
 
 __global__ void set_distance(int *dist, int vertices, int src);
 
@@ -21,7 +23,7 @@ void print_array(int *arr, int size, char *str);
 
 void create_CSR_from_gr_file(char* filename, int *C, int *R);
 
-void count_edges_and_vertices_in_gr_file(char* filename, int *edges, int *vertices);
+void count_edges_and_vertices_in_gr_file(std::string filename, int *edges, int *vertices);
 
 int compare_edges(const void *e1, const void *e2);
 
